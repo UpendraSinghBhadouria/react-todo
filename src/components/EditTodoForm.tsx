@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface Iprops {
   editTask: (id: number, editText: string) => void,
@@ -12,6 +12,7 @@ interface Iprops {
 const EditTodoForm: React.FC<Iprops> = ({ editTask, todo }) => {
 
   const [editValue, setEditValue] = useState(todo.text);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEditValue(event.target.value);
@@ -23,6 +24,10 @@ const EditTodoForm: React.FC<Iprops> = ({ editTask, todo }) => {
     editTask(todo.id, editValue);
   }
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [])
+
   return (
     <form className='todo_form' onSubmit={handleSubmit}>
       <input
@@ -30,6 +35,7 @@ const EditTodoForm: React.FC<Iprops> = ({ editTask, todo }) => {
         placeholder='Enter your todo'
         onChange={handleChange}
         value={editValue}
+        ref={inputRef}
       />
       <button type='submit'>Update Todo</button>
     </form>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface Iprops {
     addTodo: (enteredTodo: string) => void
@@ -6,6 +6,7 @@ interface Iprops {
 
 const TodoForm: React.FC<Iprops> = ({ addTodo }) => {
     const [enteredTodo, setEnteredTodo] = useState('');
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEnteredTodo(event.target.value);
@@ -18,6 +19,10 @@ const TodoForm: React.FC<Iprops> = ({ addTodo }) => {
         setEnteredTodo('');
     }
 
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, [])
+
     return (
         <form className='todo_form' onSubmit={handleSubmit}>
             <input
@@ -25,6 +30,7 @@ const TodoForm: React.FC<Iprops> = ({ addTodo }) => {
                 placeholder='Enter your todo'
                 value={enteredTodo}
                 onChange={handleChange}
+                ref={inputRef}
             />
             <button type='submit'>Add Todo</button>
         </form>

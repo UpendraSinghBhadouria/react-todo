@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import TodoForm from './TodoForm'
 import Todo from './Todo'
 import EditTodoForm from './EditTodoForm'
+import { toast } from 'react-toastify'
 
 interface Itodos {
     id: number,
@@ -15,7 +16,16 @@ const TodoWrapper = () => {
     const addTodo = (enteredTodo: string) => {
         if (todos.find((todo) => todo.text === enteredTodo)) {
             console.log("EXITS");
-            alert("Duplicate Todo occurred!")
+            toast.info("Duplicate Todo occurred!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
             return;
         }
         setTodos([...todos, { id: Date.now(), text: enteredTodo, isEdit: false }]);
