@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import TodoForm from './TodoForm'
 import Todo from './Todo'
 import EditTodoForm from './EditTodoForm'
@@ -13,6 +13,11 @@ const TodoWrapper = () => {
     const [todos, setTodos] = useState<Itodos[]>([]);
 
     const addTodo = (enteredTodo: string) => {
+        if (todos.find((todo) => todo.text === enteredTodo)) {
+            console.log("EXITS");
+            alert("Duplicate Todo occurred!")
+            return;
+        }
         setTodos([...todos, { id: Date.now(), text: enteredTodo, isEdit: false }]);
     }
 
@@ -38,7 +43,7 @@ const TodoWrapper = () => {
             <TodoForm addTodo={addTodo} />
             {todos.map((todo: Itodos) => (
                 todo.isEdit ?
-                    <EditTodoForm key={todo.id} editTask={editTask} todo={todo}/> :
+                    <EditTodoForm key={todo.id} editTask={editTask} todo={todo} /> :
                     <Todo
                         key={todo.id}
                         todo={todo}
